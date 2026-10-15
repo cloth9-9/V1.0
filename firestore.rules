@@ -1,0 +1,138 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny all access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() &&
+        request.auth.token.email_verified == true &&
+        (
+          request.auth.token.email == 'userhelpdesk9@gmail.com' ||
+          (
+            exists(/databases/$(database)/documents/admins/$(request.auth.uid)) &&
+            get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.enabled == true
+          )
+        );
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Connection validation endpoint for application boot test
+    match /test/{docId} {
+      allow get: if true;
+    }
+
+    // Products collection
+    match /products/{productId} {
+      allow get: if (existing().published == true) || isAdmin();
+      allow list: if (resource.data.published == true) || isAdmin();
+      allow create, update, delete: if isAdmin() && isValidId(productId);
+    }
+
+    // Categories collection
+    match /categories/{categoryId} {
+      allow get: if (existing().published == true) || isAdmin();
+      allow list: if (resource.data.published == true) || isAdmin();
+      allow create, update, delete: if isAdmin() && isValidId(categoryId);
+    }
+
+    // Services collection (Tailoring & Alterations)
+    match /services/{serviceId} {
+      allow get: if (existing().published == true) || isAdmin();
+      allow list: if (resource.data.published == true) || isAdmin();
+      allow create, update, delete: if isAdmin() && isValidId(serviceId);
+    }
+
+    // Site Settings (Public business configuration)
+    match /siteSettings/{settingId} {
+      allow get: if isValidId(settingId);
+      allow list: if isAdmin();
+      allow create, update, delete: if isAdmin() && isValidId(settingId);
+    }
+
+    // Customer Reviews (Only authorized & published are public)
+    match /reviews/{reviewId} {
+      allow get: if (existing().authorized == true && existing().published == true) || isAdmin();
+      allow list: if (resource.data.authorized == true && resource.data.published == true) || isAdmin();
+      allow create, update, delete: if isAdmin() && isValidId(reviewId);
+    }
+
+    // Tailoring Appointments (Strict private customer bookings)
+    match /appointments/{appointmentId} {
+      allow get, list, delete: if isAdmin();
+      allow update: if isAdmin() && isValidId(appointmentId);
+      allow create: if isValidId(appointmentId) && (
+        isAdmin() ||
+        (
+          incoming().customerName is string &&
+          incoming().customerName.size() >= 1 &&
+          incoming().customerName.size() <= 100 &&
+          incoming().phone is string &&
+          incoming().phone.size() >= 5 &&
+          incoming().phone.size() <= 20 &&
+          incoming().requestedDate is string &&
+          incoming().requestedDate.size() <= 30 &&
+          incoming().requestedTime is string &&
+          incoming().requestedTime.size() <= 30 &&
+          incoming().status == 'pending' &&
+          (!('internalNotes' in incoming()) || incoming().internalNotes == '') &&
+          incoming().keys().hasOnly([
+            'customerName', 'phone', 'requestedDate', 'requestedTime',
+            'serviceId', 'serviceName', 'language', 'customerNotes',
+            'status', 'createdAt', 'updatedAt'
+          ])
+        )
+      );
+    }
+
+    // Enquiries and Messages
+    match /enquiries/{enquiryId} {
+      allow get, list, delete: if isAdmin();
+      allow update: if isAdmin() && isValidId(enquiryId);
+      allow create: if isValidId(enquiryId) && (
+        isAdmin() ||
+        (
+          incoming().customerName is string &&
+          incoming().customerName.size() >= 1 &&
+          incoming().customerName.size() <= 100 &&
+          incoming().phone is string &&
+          incoming().phone.size() >= 5 &&
+          incoming().phone.size() <= 20 &&
+          incoming().message is string &&
+          incoming().message.size() >= 1 &&
+          incoming().message.size() <= 1000 &&
+          incoming().status == 'new' &&
+          incoming().keys().hasOnly([
+            'customerName', 'phone', 'productId', 'productName',
+            'message', 'language', 'status', 'createdAt', 'updatedAt'
+          ])
+        )
+      );
+    }
+
+    // Administrator profiles
+    match /admins/{uid} {
+      allow read, write: if isAdmin() && isValidId(uid);
+    }
+  }
+}

@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-charcoal: #171717;
+    --color-ivory: #F8F5EF;
+    --color-gold: #B89A62;
+    --color-gold-hover: #9B7E48;
+    --color-gold-light: #F4EEDF;
+    --color-beige: #E9E1D4;
+    --color-text-dark: #292824;
+    --color-text-muted: #68645E;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-ivory);
+    color: var(--color-text-dark);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  /* Bengali typography enhancement */
+  html[lang="bn"] {
+    font-family: 'Noto Sans Bengali', 'Plus Jakarta Sans', sans-serif;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.02em;
+  }
+
+  html[lang="bn"] h1,
+  html[lang="bn"] h2,
+  html[lang="bn"] h3,
+  html[lang="bn"] .font-display {
+    font-family: 'Noto Sans Bengali', serif;
+    letter-spacing: 0;
+  }
+}
+
+/* Custom focus ring */
+*:focus-visible {
+  outline: 2px solid #B89A62;
+  outline-offset: 2px;
+}
+
+/* Scrollbar polish */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F8F5EF;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D4BC88;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B89A62;
+}

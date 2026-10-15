@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="blazerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="lapelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+    <linearGradient id="goldAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D4BC88"/>
+      <stop offset="100%" stop-color="#B89A62"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="600" height="800" fill="#141414"/>
+
+  <!-- Inner Shirt and Tie -->
+  <polygon points="300,240 270,180 330,180" fill="#F8FAFC"/>
+  <polygon points="300,200 292,260 300,320 308,260" fill="#B91C1C" stroke="#7F1D1D" stroke-width="1"/>
+
+  <!-- Suit Body Silhouette -->
+  <path d="M210,180 L300,240 L390,180 L460,250 L425,370 L400,340 L400,620 L200,620 L200,340 L175,370 L140,250 Z" fill="url(#blazerGrad)" filter="drop-shadow(0px 15px 25px rgba(0,0,0,0.7))"/>
+
+  <!-- Peak / Notch Lapels -->
+  <polygon points="210,180 255,270 235,280 265,370 290,370 260,240" fill="url(#lapelGrad)" stroke="#475569" stroke-width="1"/>
+  <polygon points="390,180 345,270 365,280 335,370 310,370 340,240" fill="url(#lapelGrad)" stroke="#475569" stroke-width="1"/>
+
+  <!-- Pocket Square in breast pocket -->
+  <rect x="230" y="340" width="40" height="4" fill="#334155"/>
+  <polygon points="238,340 248,325 258,340" fill="#F8FAFC"/>
+
+  <!-- Front Double-Breasted / Single Buttons -->
+  <circle cx="280" cy="420" r="6" fill="#1E293B" stroke="url(#goldAccent)" stroke-width="2"/>
+  <circle cx="320" cy="420" r="6" fill="#1E293B" stroke="url(#goldAccent)" stroke-width="2"/>
+  <circle cx="280" cy="470" r="6" fill="#1E293B" stroke="url(#goldAccent)" stroke-width="2"/>
+  <circle cx="320" cy="470" r="6" fill="#1E293B" stroke="url(#goldAccent)" stroke-width="2"/>
+
+  <!-- Lower Flap Pockets -->
+  <rect x="220" y="490" width="55" height="15" rx="2" fill="#0F172A" stroke="#334155" stroke-width="1.5"/>
+  <rect x="325" y="490" width="55" height="15" rx="2" fill="#0F172A" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Brand Label Badge -->
+  <rect x="175" y="670" width="250" height="45" fill="#171717" stroke="url(#goldAccent)" stroke-width="1.5"/>
+  <text x="300" y="692" font-family="'Cinzel', serif, Georgia" font-size="13" font-weight="bold" fill="#D4BC88" text-anchor="middle" letter-spacing="3">JANAPRIYA</text>
+  <text x="300" y="706" font-family="sans-serif" font-size="9" font-weight="600" fill="#94A3B8" text-anchor="middle" letter-spacing="2">STRUCTURED WOOL BLAZER</text>
+</svg>

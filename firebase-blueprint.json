@@ -1,0 +1,188 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "Ready-made garment or clothing item in the catalog",
+      "type": "object",
+      "properties": {
+        "nameEn": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "nameBn": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "descriptionEn": { "type": "string", "maxLength": 2000 },
+        "descriptionBn": { "type": "string", "maxLength": 2000 },
+        "categoryId": { "type": "string", "maxLength": 100 },
+        "sku": { "type": "string", "maxLength": 50 },
+        "priceInr": { "type": "number" },
+        "compareAtPriceInr": { "type": "number" },
+        "imageUrls": { "type": "array" },
+        "sizes": { "type": "array" },
+        "colors": { "type": "array" },
+        "stockQuantity": { "type": "number" },
+        "lowStockThreshold": { "type": "number" },
+        "featured": { "type": "boolean" },
+        "published": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["nameEn", "nameBn", "categoryId", "priceInr", "published"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Product category classification",
+      "type": "object",
+      "properties": {
+        "nameEn": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "nameBn": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "slug": { "type": "string", "maxLength": 100 },
+        "imageUrl": { "type": "string", "maxLength": 1000 },
+        "sortOrder": { "type": "number" },
+        "published": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["nameEn", "nameBn", "slug", "published"]
+    },
+    "Service": {
+      "title": "Service",
+      "description": "Tailoring and alteration service",
+      "type": "object",
+      "properties": {
+        "titleEn": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "titleBn": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "descriptionEn": { "type": "string", "maxLength": 1000 },
+        "descriptionBn": { "type": "string", "maxLength": 1000 },
+        "priceInr": { "type": "number" },
+        "pricingMode": { "type": "string", "enum": ["fixed", "enquiry_only"] },
+        "sortOrder": { "type": "number" },
+        "published": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["titleEn", "titleBn", "pricingMode", "published"]
+    },
+    "SiteSettings": {
+      "title": "SiteSettings",
+      "description": "Store configuration and public details",
+      "type": "object",
+      "properties": {
+        "brandName": { "type": "string", "maxLength": 100 },
+        "heroTitleEn": { "type": "string", "maxLength": 200 },
+        "heroTitleBn": { "type": "string", "maxLength": 200 },
+        "heroDescriptionEn": { "type": "string", "maxLength": 1000 },
+        "heroDescriptionBn": { "type": "string", "maxLength": 1000 },
+        "heroImageUrl": { "type": "string", "maxLength": 1000 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "whatsappNumber": { "type": "string", "maxLength": 30 },
+        "address": { "type": "string", "maxLength": 300 },
+        "cityPostal": { "type": "string", "maxLength": 100 },
+        "openingHours": { "type": "string", "maxLength": 200 },
+        "mapUrl": { "type": "string", "maxLength": 1000 },
+        "reviewUrl": { "type": "string", "maxLength": 1000 },
+        "announcementEn": { "type": "string", "maxLength": 300 },
+        "announcementBn": { "type": "string", "maxLength": 300 },
+        "aboutEn": { "type": "string", "maxLength": 2000 },
+        "aboutBn": { "type": "string", "maxLength": 2000 },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Appointment": {
+      "title": "Appointment",
+      "description": "Private tailoring appointment request",
+      "type": "object",
+      "properties": {
+        "customerName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "phone": { "type": "string", "minLength": 5, "maxLength": 20 },
+        "requestedDate": { "type": "string", "maxLength": 20 },
+        "requestedTime": { "type": "string", "maxLength": 30 },
+        "serviceId": { "type": "string", "maxLength": 100 },
+        "serviceName": { "type": "string", "maxLength": 200 },
+        "language": { "type": "string", "enum": ["en", "bn"] },
+        "customerNotes": { "type": "string", "maxLength": 500 },
+        "status": { "type": "string", "enum": ["pending", "contacted", "scheduled", "completed", "cancelled"] },
+        "internalNotes": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["customerName", "phone", "requestedDate", "requestedTime", "status"]
+    },
+    "Enquiry": {
+      "title": "Enquiry",
+      "description": "Customer message or product enquiry",
+      "type": "object",
+      "properties": {
+        "customerName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "phone": { "type": "string", "minLength": 5, "maxLength": 20 },
+        "productId": { "type": "string", "maxLength": 100 },
+        "productName": { "type": "string", "maxLength": 200 },
+        "message": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "language": { "type": "string", "enum": ["en", "bn"] },
+        "status": { "type": "string", "enum": ["new", "contacted", "resolved", "archived"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["customerName", "phone", "message", "status"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "Customer review or testimonial",
+      "type": "object",
+      "properties": {
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "textEn": { "type": "string", "maxLength": 1000 },
+        "textBn": { "type": "string", "maxLength": 1000 },
+        "rating": { "type": "number" },
+        "source": { "type": "string", "maxLength": 100 },
+        "authorized": { "type": "boolean" },
+        "published": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["displayName", "authorized", "published"]
+    },
+    "Admin": {
+      "title": "Admin",
+      "description": "Administrator account record",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "maxLength": 200 },
+        "role": { "type": "string", "enum": ["admin"] },
+        "enabled": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "role", "enabled"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Products catalog"
+    },
+    "/categories/{categoryId}": {
+      "schema": "Category",
+      "description": "Garment categories"
+    },
+    "/services/{serviceId}": {
+      "schema": "Service",
+      "description": "Tailoring and alteration services"
+    },
+    "/siteSettings/{settingId}": {
+      "schema": "SiteSettings",
+      "description": "Public store branding and configuration"
+    },
+    "/appointments/{appointmentId}": {
+      "schema": "Appointment",
+      "description": "Private tailoring appointment bookings"
+    },
+    "/enquiries/{enquiryId}": {
+      "schema": "Enquiry",
+      "description": "Customer enquiries and contact requests"
+    },
+    "/reviews/{reviewId}": {
+      "schema": "Review",
+      "description": "Authorized customer reviews"
+    },
+    "/admins/{uid}": {
+      "schema": "Admin",
+      "description": "Authorized administrator accounts"
+    }
+  }
+}
